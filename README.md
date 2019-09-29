@@ -6,8 +6,8 @@ Let's make the history together.
 
 9月29日: 
 * yingshaoxo: 完成 time table.
-* 孙雅斌: 
-* 刘露: 
+* 孙雅斌: 购买比赛用品.
+* 刘露: 学习如何使用 github，方便后期更新此表.
 
 9月30日: 
 * yingshaoxo: 
