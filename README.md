@@ -34,12 +34,12 @@ Let's make the history together.
 * 刘露: 学习如何使用 github，方便后期更新此表.
 
 9月30日: 
-* yingshaoxo: 用 Pyboard(OpenMV) 控制 LCD，方便调试
+* yingshaoxo: 用 Pyboard(OpenMV) 控制 LCD，利于调试，实现按比赛要求`显示对应信息到显示屏`
 * 孙雅斌: 搭场地。两根黑杆，中间一条黑线，线上一个有颜色的物体
 * 刘露: 熟悉 OpenMV (Pyboard)
 
 10月1日: 
-* yingshaoxo: 用 Pyboard(OpenMV) 写出一套可靠的 UART 数据传输协议
+* yingshaoxo: 用 Pyboard(OpenMV) 写出一套可靠的 UART 数据传输协议，用来传输`故障点距离`到`笔记本电脑`，笔记本电脑再显示对应信息
 * 孙雅斌: 搭场地。两根黑杆，中间一条黑线，线上一个有颜色的物体
 * 刘露: 熟悉 OpenMV (Pyboard)
 
