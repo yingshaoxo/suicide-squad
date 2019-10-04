@@ -13,80 +13,105 @@ import sensor
 
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)  # grayscale is faster
-#sensor.set_pixformat(sensor.GRAYSCALE)  # grayscale is faster
+# sensor.set_pixformat(sensor.GRAYSCALE)  # grayscale is faster
 sensor.set_framesize(sensor.QQVGA)  # QVGA: 320x240, QQVGA: 160x120
 sensor.skip_frames(time=2000)
 
 enable_lens_corr = True  # turn on for straighter lines...
 
-# white and black threshold
-THRESHOLD = 14
-
 # for getting screen resolution
 screen_width = sensor.width()
 screen_height = sensor.height()
 
-# for line segments
-line_segment_merging_distance = screen_width // 8
-max_theta_difference = 15
-# take 3 points at that line, if at least 2 point is black, we say it's a black line
 
-# for infinite lines
-horizontal_range = 30
-vertial_range = 30
-theta = 0
-# take 3 points at that line, if at least 1 point is black, we say it's a black line
+class Eye:
+    def __init__(self):
+        """
+        For finding black lines
+        """
+        # white and black threshold
+        self.white_and_black_threshold = 14
+        # for reducing noises in image
+        self.erosion_size = 2
+        # for infinite lines
+        self.horizontal_angle_range = 30
+        self.vertical_angle_range = 30
+        self.theta = 0
+        """
+        For center detection
+        """
+        # for getting the center area
+        self.vertical_center_bar_width = screen_width // 8
+        self.vertical_center_bar_top_left = (((screen_width//2)-(self.vertical_center_bar_width//2)), 0)
+        self.vertical_center_bar_bottom_right = (((screen_width//2)+(self.vertical_center_bar_width//2)), screen_height)
+        self.horizontal_center_bar_width = screen_height // 8
+        self.horizontal_center_bar_top_left = (0, ((screen_height//2)-(self.horizontal_center_bar_width//2)))
+        self.horizontal_center_bar_bottom_right = (screen_width, ((screen_height//2)+(self.horizontal_center_bar_width//2)))
 
-def is_a_black_line(line, img):
-    x1, y1, x2, y2 = line.line()
-    point1 = (int((1/4)*x2 + (3/4)*x1), int((1/4)*y2 + (3/4)*y1))
-    point2 = (int((2/4)*x2 + (2/4)*x1), int((2/4)*y2 + (2/4)*y1))
-    point3 = (int((3/4)*x2 + (1/4)*x1), int((3/4)*y2 + (1/4)*y1))
-    points = [point1, point2, point3]
+    def get_center_point_of_a_line(self, line):
+        x = (line.x1() + line.x2()) // 2
+        y = (line.y1() + line.y2()) // 2
+        print(x, y)
+        return x, y
 
-    total_points = len(points)
-    black_points = 0
-    for x,y in points:
-        value = img.get_pixel(x, y)
-        if (value != None):
-            value = image.rgb_to_grayscale(value)
-            if (value <= THRESHOLD):
-                black_points += 1
+    def is_the_point_at_the_vertical_center_bar_of_the_screen(self, x, y):
+        if (x >= self.vertical_center_bar_top_left[0] and x <= self.vertical_center_bar_bottom_right[0]):
+            return True
+        else:
+            return False
 
-    if black_points / total_points > 0.6:
-    #if black_points > 0:
-        return True
-    else:
-        return False
+    def is_the_point_at_the_horizontal_center_bar_of_the_screen(self, x, y):
+        if (y >= self.horizontal_center_bar_top_left[1] and y <= self.horizontal_center_bar_bottom_right[1]):
+            print(self.vertical_center_bar_top_left[0], x, self.vertical_center_bar_bottom_right[0])
+            return True
+        else:
+            return False
 
-def find_lines(img):
-    for l in img.find_line_segments(merge_distance=line_segment_merging_distance, max_theta_diff=5):
-    #for l in img.find_lines(threshold=7000, theta_margin=25, rho_margin=25):
-        if (is_a_black_line(l, img)):
-            theta = l.theta()
-            if (179-horizontal_range <= theta <= 179) or (0 <= theta <= 0+horizontal_range):
+    def find_black_lines(self, img):
+        grayscale_img = img.to_grayscale(copy=True)
+        binary_img = grayscale_img.binary([(0, self.white_and_black_threshold)], invert=True, copy=True)
+        binary_img.erode(self.erosion_size)
+        lines = binary_img.find_lines(threshold=9000, theta_margin=25, rho_margin=25)
+        for l in lines:
+            # theta_margin: it should change according to the angle-change a drone will make when it's in flying
+            # rho_margin: the larger rho is, the thicker the line
+            self.theta = l.theta()
+            x, y = self.get_center_point_of_a_line(l)
+            if (179-self.vertical_angle_range <= self.theta <= 179) or (0 <= self.theta <= 0+self.vertical_angle_range):
                 img.draw_line(l.line(), color=(0, 255, 0))
-            elif (90-vertial_range <= theta <= 90+vertial_range):
+            elif (90-self.horizontal_angle_range <= self.theta <= 90+self.horizontal_angle_range):
                 img.draw_line(l.line(), color=(255, 0, 0))
 
-        """
-        the parent_line object:
-        {"x1":226, "y1":0, "x2":226, "y2":239, "length":239, "magnitude":8778, "theta":0, "rho":226}
 
-        the method of that parent_line:
-        ['line', 'x1', 'y1', 'x2', 'y2', 'length', 'magnitude', 'theta', 'rho']
-        > use it by calling it, like line.length()
+class FlyingController:
+    def __init__(self):
+        pass
 
-        the parent_line object:
-        (202, 0, 194, 239)
+    def go_up(self):
+        pass
 
-        the range of theta is (0, 179)
-        """
+    def go_down(self):
+        pass
 
+    def go_straight(self):
+        pass
+
+    def go_back(self):
+        pass
+
+    def keep_still(self):
+        pass
+
+    def stop(self):
+        pass
+
+
+controller = FlyingController()
+eye = Eye()
 while(True):
     img = sensor.snapshot()
 
     if enable_lens_corr:
         img.lens_corr(1.8)  # for 2.8mm lens...
 
-    find_lines(img)
+    eye.find_black_lines(img)
