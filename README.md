@@ -58,18 +58,18 @@ ___
 * 刘露: 把店家给的所有飞行器资源下载到本地，方便学习
 
 10月4日: 
-* yingshaoxo: 学习了如何手动操控无人机，如何给无人机电池充电
+* yingshaoxo: 学习了如何给无人机装浆，如何手动操控无人机，如何给无人机电池充电
 * 孙雅斌: 无
-* 刘露: 学习了如何手动操控无人机，如何给无人机电池充电
+* 刘露: 学习了如何给无人机装浆，如何手动操控无人机，如何给无人机电池充电
 
 ___
 
 ### Task3: 让无人机飞起来，先手动遥控，后编程控制。要求能不使用GPS，用超声波`定高旋停`。最后还得让无人机缓慢地降落
 
 10月5日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 学会了`HITL(hardware in the loop)`, `SITL(software in the loop)`(具体来讲就是学会使用`jMAVSim、AirSim、QGroundControl)`。学会了给无人机`更新固件`、`遥控器对码`。了解了PX4的几种`Flight Mode`: Stabilized, Altidude(By GPS), Manual, Mission, Return, Takeoff, Land
+* 孙雅斌: 无
+* 刘露: 学会了如何使用`AirSim、QGroundControl`。学会了给无人机遥控器对码。了解了PX4的几种`Flight Mode`
 
 10月6日: 
 * yingshaoxo: 
