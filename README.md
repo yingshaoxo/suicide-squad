@@ -77,7 +77,7 @@ ___
 * 刘露: 去学习一堆 yingshaoxo 给的 web links（关于无人机、通信协议、模块安装与使用等）
 
 10月7日: 
-* yingshaoxo: 
+* yingshaoxo: 在模拟或实机情况下，`Companion Computer`send`takeoff` command to let drone flying at 1 meter. Stay awhile, `Companion Computer` send `land` command to let the drone back to ground.
 * 孙雅斌: 
 * 刘露: 
 
