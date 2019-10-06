@@ -67,23 +67,23 @@ ___
 ### Task3: 让无人机飞起来，先手动遥控，后编程控制。要求能不使用GPS，用内置气压计和光流`定点旋停`。最后还得让无人机缓慢地降落
 
 10月5日: 
-* yingshaoxo: 学会了`HITL(hardware in the loop)`, `SITL(software in the loop)`(具体来讲就是学会使用`jMAVSim、AirSim、QGroundControl)`。学会了给无人机`更新固件`、`遥控器对码`。了解了PX4的几种`Flight Mode`: Stabilized, Altidude(By GPS), Manual, Mission, Return, Takeoff, Land
+* yingshaoxo: 学会了`HITL(hardware in the loop)`, `SITL(software in the loop)`(具体来讲就是学会使用`jMAVSim、AirSim、QGroundControl)`。学会了给无人机`更新固件`、`遥控器对码`。了解了PX4的几种`Flight Mode`: Stabilized, Altitude, Manual, Mission, Return, Takeoff, Land
 * 孙雅斌: 和淘宝店家沟通，索要资料
-* 刘露: 学会了如何使用`AirSim、QGroundControl`。学会了给无人机遥控器对码。了解了PX4的几种`Flight Mode`
+* 刘露: 学会了`AirSim、QGroundControl`的基本使用。学会了给无人机遥控器对码。了解了PX4的几种`Flight Mode`
 
 10月6日: 
-* yingshaoxo: 去学习(把OpenMV当成)`光流(Optical Flow Senser)`的用法 | 未完成，缺`特制的的飞控线转杜邦线`; 配置好`raspberry pie 3B+`，接下来打算把它送上天
+* yingshaoxo: 了解了`定高(altitude)`与`定点(position)`的区别; 学习(把OpenMV当成)`光流(Optical Flow Senser)`的用法 | 未完成，缺`特制的飞控线转杜邦线`; 配置好`raspberry pie 3B+`，接下来打算把它送上天
 * 孙雅斌: 和淘宝店家沟通，索要更多资料
-* 刘露: 在淘宝买`飞控线转杜邦线`
-
-10月7日: 
-* yingshaoxo: 在模拟或实机情况下，`Companion Computer`send`takeoff` command to let drone flying at 1 meter. Stay awhile, `Companion Computer` send `land` command to let the drone back to ground.
-* 孙雅斌: 
-* 刘露: 
+* 刘露: 在淘宝买`飞控线转杜邦线`; 在淘宝买`光流+超声波测距 一体板`
 
 > 定高: 高度稳定，但会在水平方向偏移。需要`Sonar sensor(声纳)`或`Ultrasonic sensor(特制超声波)`。
 
 > 定点: 稳定在一个点，不会漂移。需要`Optical flow sensor(光流)`或`GPS`。
+
+10月7日: 
+* yingshaoxo: 在模拟或实机情况下, 使用`MavSDK`，让`Companion Computer`send`takeoff` command to let drone flying at 1 meter. Stay awhile, then let `Companion Computer` send a `land` command to let the drone back to the ground.
+* 孙雅斌: 
+* 刘露: 
 
 ___
 
