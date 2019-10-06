@@ -39,7 +39,7 @@ Let's make the history together.
 * 刘露: 熟悉 OpenMV (Pyboard) | 未完成
 
 10月1日: 
-* yingshaoxo: 用 Pyboard(OpenMV) 写出一套可靠的 UART 数据传输协议，用来传输`故障点距离`到`笔记本电脑`，笔记本电脑再显示对应信息 | 完成了一半
+* yingshaoxo: 用 Pyboard(OpenMV) 写出一套可靠的 UART 数据传输协议，用来传输`故障点距离`到`笔记本电脑`，笔记本电脑再显示对应信息 | 完成了一半，第二天全部完成
 * 孙雅斌: 购买搭场地所需物品。(两根黑杆，中间一条黑线，线上一个有颜色的物体)
 * 刘露: 熟悉 OpenMV (Pyboard) | 未完成
 
@@ -72,7 +72,7 @@ ___
 * 刘露: 学会了`AirSim、QGroundControl`的基本使用。学会了给无人机遥控器对码。了解了PX4的几种`Flight Mode`
 
 10月6日: 
-* yingshaoxo: 了解了`定高(altitude)`与`定点(position)`的区别; 学习(把OpenMV当成)`光流(Optical Flow Senser)`的用法 | 未完成，缺`特制的飞控线转杜邦线`; 配置好`raspberry pie 3B+`，接下来打算把它送上天
+* yingshaoxo: 了解了`定高(altitude)`与`定点(position)`的区别; 学习(把OpenMV当成)`光流(Optical Flow Senser)`的用法 | 未完成，缺`特制的飞控线转杜邦线`; 配置好`raspberry pie 3B+`，接下来打算把它送上天 | 完成开发环境(MavSDK)的编译与配置，并做了备份
 * 孙雅斌: 和淘宝店家沟通，索要更多资料
 * 刘露: 在淘宝买`飞控线转杜邦线`; 在淘宝买`光流+超声波测距 一体板`
 
