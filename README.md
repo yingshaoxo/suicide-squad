@@ -81,9 +81,9 @@ ___
 > 定点: 稳定在一个点，不会漂移。需要`Optical flow sensor(光流)`或`GPS`。
 
 10月7日: 
-* yingshaoxo: 在模拟或实机情况下, 使用`MavSDK`，让`Companion Computer`send`takeoff` command to let drone flying at 1 meter. Stay awhile, then let `Companion Computer` send a `land` command to let the drone back to the ground.
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 在模拟机情况下(实体机原理一样), 使用`MavSDK-Python`，让`Companion Computer`send`takeoff` command to let drone flying at 1 meter. Stay awhile, then let `Companion Computer` send a `land` command to let the drone back to the ground. | 完成，不光学会了`基于serial和USB的`raspberry-pi对PX4的控制，还学会了`基于Local Area Network的`
+* 孙雅斌: 整理发票和采购清单
+* 刘露: 无
 
 ___
 
