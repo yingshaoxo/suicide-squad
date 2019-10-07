@@ -93,7 +93,7 @@ class SmartOpen_LCD():
                     if byte_string == "EF":
                         return bytes_to_hex
             else:
-                sleep(0.1)
+                self.wait(0.1)
 
     def wait_for_command_to_be_executed(self):
         if self.read_feedback_signal() == "7E036F6BEF":

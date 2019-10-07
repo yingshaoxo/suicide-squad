@@ -2,15 +2,12 @@ from UART_Python_Lib import *
 
 my_transmission = MyTransmissionProtocol("/dev/ttyUSB0")
 
-#sleep(3)
 print(my_transmission.read_json())
-exit()
+sleep(3)
 
-i = 255
+my_transmission.write_safely(b"hi! yingshaoxo")
+sleep(3)
+
 while 1:
-    i -= 1
-
-    my_transmission.write_safely(hex_to_bytes(text_to_hex(str(i)+"yingshaoxo")))
-
-    if i == 0:
-        i = 255
+    byte = my_transmission.read_safely()
+    print(byte)

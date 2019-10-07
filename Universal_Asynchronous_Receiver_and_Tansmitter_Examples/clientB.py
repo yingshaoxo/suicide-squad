@@ -7,9 +7,13 @@ my_transmission.write_json({
     "you": 21,
     "someone": 100
 })
-exit()
 
+print(my_transmission.read_safely())
+
+i = 255
 while 1:
-    byte = my_transmission.read_safely()
-    print(byte)
-    sleep(0.5)
+    my_transmission.write_safely(hex_to_bytes(text_to_hex(str(i)+"yingshaoxo")))
+
+    i -= 1
+    if i == 0:
+        i = 255

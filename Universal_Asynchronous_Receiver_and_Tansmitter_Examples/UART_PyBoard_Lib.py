@@ -6,18 +6,19 @@ ls -l /dev/ttyUSB0
 sudo usermod -a -G uucp yingshaoxo
 sudo chmod a+rw /dev/ttyUSB0
 """
-import serial
-import binascii
+from pyb import UART
+import ubinascii
 from time import sleep
-import json
+import random
+import ujson
 
 
 def bytes_to_hex(a_byte, length=2):
-    return str(binascii.hexlify(a_byte))[2:-1]
+    return str(ubinascii.hexlify(a_byte))[2:-1]
 
 
 def hex_to_bytes(hex_string):
-    return binascii.unhexlify(hex_string)
+    return ubinascii.unhexlify(hex_string)
 
 
 def int_to_hex(integer, length=None):
@@ -46,25 +47,31 @@ def bytes_to_int(a_byte):
 
 def text_to_hex(text):
     length = len(text) * 2
-    bytes_ = binascii.hexlify(text.encode("ascii", "ignore"))
+    bytes_ = ubinascii.hexlify(text.encode("ascii", "ignore"))
     result = str(bytes_)
     result = result[2:][:-1]
     return result
+
 
 def hex_to_text(hex_string):
     bytes_data = hex_to_bytes(hex_string)
     text = bytes_data.decode("ascii", "ignore")
     return text
 
+
 class MyTransmissionProtocol():
     def __init__(self, port="/dev/ttyUSB0"):
-        self.serial = serial.Serial(port, 115200, timeout=0.1, write_timeout=0.1)  # open serial port
-        print(self.serial.name)         # check which port was really used
-        print('-'*10)
+        self.serial = UART(3, 115200, timeout=0)  # open serial port
         self.idle_hex = "00"*3
 
     def wait(self, time_in_ms):
-        sleep(time_in_ms/1000)
+        sleep(time_in_ms)
+
+    def readable(self):
+        if self.serial.any():
+            return True
+        else:
+            return False
 
     def write(self, bytes_data):
         # for data less than 256
@@ -82,17 +89,17 @@ class MyTransmissionProtocol():
                 if (max_attempts < 0):
                     return None
 
-            if self.serial.readable():
+            if self.readable():
                 a_byte = self.serial.read(1)
                 if a_byte != b"":  # timeout
                     previous_hex_list.append(bytes_to_hex(a_byte))
                     previous_hex_list = previous_hex_list[-len(self.idle_hex):]
                     if (bytes_to_hex(a_byte) != "00") and all(map(lambda x: x == "00", previous_hex_list[:-1])):
                         length = bytes_to_int(a_byte)
-                        while not self.serial.readable():
+                        while not self.readable():
                             pass
                         while length >= 0:  # the length is in 0 and 255
-                            if self.serial.readable():
+                            if self.readable():
                                 length -= 1
                                 a_byte = self.serial.read(1)
                                 hex_data += bytes_to_hex(a_byte)
@@ -164,7 +171,7 @@ class MyTransmissionProtocol():
                         return data
 
     def write_json(self, dictionary):
-        text = json.dumps(dictionary)
+        text = ujson.dumps(dictionary)
         hex_string = text_to_hex(text)
         bytes_data = hex_to_bytes(hex_string)
         self.write_large_data(bytes_data)
@@ -173,5 +180,24 @@ class MyTransmissionProtocol():
         bytes_data = self.read_large_data()
         hex_string = bytes_to_hex(bytes_data)
         text = hex_to_text(hex_string)
-        dictionary = json.loads(text)
+        dictionary = ujson.loads(text)
         return dictionary
+
+if __name__ == '__main__':
+    my_transmission = MyTransmissionProtocol("/dev/ttyUSB1")
+
+    my_transmission.write_json({
+        "me": 21,
+        "you": 21,
+        "someone": 100
+    })
+
+    print(my_transmission.read_safely())
+
+    i = 255
+    while 1:
+        my_transmission.write_safely(hex_to_bytes(text_to_hex(str(i)+"yingshaoxo")))
+
+        i -= 1
+        if i == 0:
+            i = 255
