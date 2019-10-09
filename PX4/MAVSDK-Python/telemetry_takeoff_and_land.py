@@ -1,28 +1,3 @@
-# How to use PX4
-
-## Some words
-* HITL: hardware in the loop
-* SITL: software in the loop
-* CBRK: circuit breaker
-* altitude mode: In this mode, the drone will keep a certain height, but drafts horizontally.
-* position mode: At this mode, the drone will keep stay at a point, no drafts, just still in there.
-
-## Links may helpful
-...
-
-## We use `jMAVSIM` and `MAVSDK-Python` for software development
-
-### Install
-* https://github.com/mavlink/MAVSDK-Python
-* https://dev.px4.io/v1.9.0/en/setup/dev_env_linux.html
-
-### Document for development
-* https://mavsdk.mavlink.io/develop/en/api_reference/
-* https://docs.px4.io/v1.9.0/en/advanced_config/parameter_reference.html
-* https://github.com/mavlink/MAVSDK-Python/issues
-
-### The codes may look like
-```
 #!/usr/bin/env python3
 
 import asyncio
@@ -117,4 +92,3 @@ async def observe_is_in_air(drone):
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(run())
-```

@@ -30,7 +30,8 @@ class Eye:
         For finding black lines
         """
         # white and black threshold
-        self.white_and_black_threshold = 14
+        #self.white_and_black_threshold = 14
+        self.white_and_black_threshold = 40
         # for reducing noises in image
         self.erosion_size = 2
         # for infinite lines
@@ -51,7 +52,7 @@ class Eye:
     def get_center_point_of_a_line(self, line):
         x = (line.x1() + line.x2()) // 2
         y = (line.y1() + line.y2()) // 2
-        print(x, y)
+        #print(x, y)
         return x, y
 
     def is_the_point_at_the_vertical_center_bar_of_the_screen(self, x, y):
@@ -62,14 +63,14 @@ class Eye:
 
     def is_the_point_at_the_horizontal_center_bar_of_the_screen(self, x, y):
         if (y >= self.horizontal_center_bar_top_left[1] and y <= self.horizontal_center_bar_bottom_right[1]):
-            print(self.vertical_center_bar_top_left[0], x, self.vertical_center_bar_bottom_right[0])
+            #print(self.vertical_center_bar_top_left[0], x, self.vertical_center_bar_bottom_right[0])
             return True
         else:
             return False
 
-    def find_black_lines(self, img):
-        grayscale_img = img.to_grayscale(copy=True)
-        binary_img = grayscale_img.binary([(0, self.white_and_black_threshold)], invert=True, copy=True)
+    def find_black_lines(self, img, copy=True):
+        grayscale_img = img.to_grayscale(copy=copy)
+        binary_img = grayscale_img.binary([(0, self.white_and_black_threshold)], invert=True, copy=copy)
         binary_img.erode(self.erosion_size)
         lines = binary_img.find_lines(threshold=9000, theta_margin=25, rho_margin=25)
         for l in lines:
@@ -114,4 +115,5 @@ while(True):
     if enable_lens_corr:
         img.lens_corr(1.8)  # for 2.8mm lens...
 
-    eye.find_black_lines(img)
+    #eye.find_black_lines(img, copy=False)
+    eye.find_black_lines(img, copy=True)

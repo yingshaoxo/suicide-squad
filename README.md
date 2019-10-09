@@ -90,14 +90,14 @@ ___
 ### Task4: 通过`AirSim模拟器`学习如何让无人机在原地旋转指定的度数、如何让无人机向各个方向`飞行指定的距离`； 硬件上要把所有传感器(`光流、摄像头、树梅派、激光`)都装在飞机上，并把由三根黑杆组成的场地搭好
 
 10月8日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 无
+* 孙雅斌: 无
+* 刘露: 无
 
 10月9日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 给杆子喷上了黑漆; Decide to use `Linux jMAVSIM` as the simulator. Then knows how to set `PX4 Parameters` using Python
+* 孙雅斌: 初步搭建了场地
+* 刘露: 无
 
 10月10日: 
 * yingshaoxo: 
