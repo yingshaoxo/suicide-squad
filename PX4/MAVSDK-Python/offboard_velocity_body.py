@@ -24,6 +24,14 @@ async def run():
     drone = System()
     await drone.connect(system_address="udp://:14540")
 
+    # Set parameters
+    await drone.param.set_float_param("MIS_TAKEOFF_ALT", 1.0)  # set takeoff height to 1 meter
+    await drone.param.set_int_param("COM_TAKEOFF_ACT", 0)  # hold after takeoff
+    await drone.param.set_int_param("COM_OBL_ACT", 0)  # 0: land if lost offboard signal; 1: hold if lost offboard signal
+
+    # Start parallel tasks
+    asyncio.ensure_future(print_altitude(drone))
+
     print("-- Arming")
     await drone.action.arm()
 
@@ -40,32 +48,20 @@ async def run():
         return
 
     print("-- Turn clock-wise and climb")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, -2, 60.0))
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, -1, 0.0))
     await asyncio.sleep(5)
 
-    print("-- Turn back anti-clockwise")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, -60.0))
+    print("-- Turn clock-wise and climb")
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.1, 0.0, 0.0))
     await asyncio.sleep(5)
 
     print("-- Wait for a bit")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 0.0))
-    await asyncio.sleep(2)
-
-    print("-- Fly a circle")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(5.0, 0.0, 0.0, 30.0))
-    await asyncio.sleep(15)
-
-    print("-- Wait for a bit")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 0.0))
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, -0.1, 0.0, 0.0))
     await asyncio.sleep(5)
 
-    print("-- Fly a circle sideways")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, -5.0, 0.0, 30.0))
-    await asyncio.sleep(15)
-
     print("-- Wait for a bit")
-    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 0.0))
-    await asyncio.sleep(8)
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 2.0))
+    await asyncio.sleep(20)
 
     print("-- Stopping offboard")
     try:
@@ -73,6 +69,20 @@ async def run():
     except OffboardError as error:
         print(f"Stopping offboard mode failed with error code: {error._result.result}")
 
+    print("-- Landing")
+    await drone.action.land()
+
+
+async def print_altitude(drone):
+    """ Prints the altitude when it changes """
+
+    previous_altitude = None
+
+    async for position in drone.telemetry.position():
+        altitude = round(position.relative_altitude_m)
+        if altitude != previous_altitude:
+            previous_altitude = altitude
+            print(f"Altitude: {altitude}")
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
