@@ -135,6 +135,15 @@ class SmartOpen_LCD():
         y = byte_to_string(int_to_byte(y), 4)
         self.write_command(f"7E0821{x}{y}{color}EF")
 
+    def draw_line(self, x0, y0, x1, y1, color="black"):
+        if color in self.color_table.keys():
+            color = self.color_table[color]
+        x0 = int_to_hex(x0, 4)
+        y0 = int_to_hex(y0, 4)
+        x1 = int_to_hex(x1, 4)
+        y1 = int_to_hex(y1, 4)
+        self.write_command("7E0C24{x0}{y0}{x1}{y1}{color}EF".format(x0=x0, y0=y0, x1=x1, y1=y1, color=color))
+
     def draw_rectangle(self, x, y, width, height, color="black"):
         if color in self.color_table.keys():
             color = self.color_table[color]

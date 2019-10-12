@@ -8,7 +8,7 @@ sudo chmod a+rw /dev/ttyUSB0
 """
 from pyb import UART
 import ubinascii
-from time import sleep
+import utime
 import random
 
 
@@ -65,7 +65,7 @@ class SmartOpen_LCD():
         self.set_baud()
 
     def wait(self, time=1):
-        sleep(time)
+        utime.sleep_ms(int(time * 1000))
 
     def reset(self):
         self.write_command("7E0205EF")
@@ -120,6 +120,15 @@ class SmartOpen_LCD():
         x = int_to_hex(x, 4)
         y = int_to_hex(y, 4)
         self.write_command("7E0821{x}{y}{color}EF".format(x=x, y=y, color=color))
+
+    def draw_line(self, x0, y0, x1, y1, color="black"):
+        if color in self.color_table.keys():
+            color = self.color_table[color]
+        x0 = int_to_hex(x0, 4)
+        y0 = int_to_hex(y0, 4)
+        x1 = int_to_hex(x1, 4)
+        y1 = int_to_hex(y1, 4)
+        self.write_command("7E0C24{x0}{y0}{x1}{y1}{color}EF".format(x0=x0, y0=y0, x1=x1, y1=y1, color=color))
 
     def draw_rectangle(self, x, y, width, height, color="black"):
         if color in self.color_table.keys():
