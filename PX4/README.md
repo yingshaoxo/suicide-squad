@@ -7,6 +7,10 @@
 * altitude mode: In this mode, the drone will keep a certain height, but drafts horizontally.
 * position mode: At this mode, the drone will keep stay at a point, no drafts, just still in there.
 
+## Paramaters
+* EKF2_AID_MASK: set to `use optical flow` only
+* CBRK_SUPPLY_CHK: set to `no check`
+
 ## Links may helpful
 ...
 
