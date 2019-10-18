@@ -115,46 +115,46 @@ ___
 
 10月12日: 
 * yingshaoxo: 无(期末复习)
-* 孙雅斌: 
-* 刘露: 
+* 孙雅斌: 无
+* 刘露: 无
 
 10月13日: 
 * yingshaoxo: 无(期末复习)
-* 孙雅斌: 
-* 刘露: 
+* 孙雅斌: 无
+* 刘露: 无
 
 ___
 
-### Task6: 研究如何把`asynchronous飞行控制框架`与`synchronous摄像头程序`整合起来 (如果能用Unity3D构建一个虚拟比赛场地，那就用它测试)
+### Task6: 研究如何把`asynchronous飞行控制框架`与`synchronous摄像头程序`整合起来
 
 10月14日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: Github开源领袖回复了我的问题。知道了怎样整合两个框架。
+* 孙雅斌: 无
+* 刘露: 给飞机装上了支架、光流、防护罩
 
 10月15日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 测试了没有GPS, 只用光流在室内的飞行情况，基本还行
+* 孙雅斌: 无
+* 刘露: 无
 
 10月16日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 无(期末复习)
+* 孙雅斌: 无
+* 刘露: 无
 
 ___
 
-### Task7: 整合代码，按照 Strategies 写流程，实机测试
+### Task7: 把树梅派安装上去，尝试用程序控制飞机(put RaspberryPi to drone, try to control the drone with DIY software)
 
 10月17日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 无(期末复习)
+* 孙雅斌: 无
+* 刘露: 无
 
 10月18日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: update README file
+* 孙雅斌: put raspberry pi to drone
+* 刘露: put raspberry pi to drone
 
 10月19日: 
 * yingshaoxo: 
