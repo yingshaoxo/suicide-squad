@@ -153,22 +153,22 @@ ___
 
 10月18日: 
 * yingshaoxo: update README file
+* 孙雅斌: None
+* 刘露: None
+
+10月19日: 
+* yingshaoxo: put raspberry pi to drone
 * 孙雅斌: put raspberry pi to drone
 * 刘露: put raspberry pi to drone
 
-10月19日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
-
 ___
 
-### Task8: 整合代码，按照 Strategies 写流程，实机测试
+### Task8: 连接树梅派与pixhawk, 用树梅派控制飞机移动
 
 10月20日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 无
+* 孙雅斌: 无
+* 刘露: 无
 
 10月21日: 
 * yingshaoxo: 
@@ -182,7 +182,7 @@ ___
 
 ___
 
-### Task9: 稳定性测试，完善程序
+### Task9: 整合代码，按照 Strategies 写流程，实机测试
 
 10月23日: 
 * yingshaoxo: 
