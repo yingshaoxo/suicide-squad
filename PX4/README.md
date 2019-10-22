@@ -10,9 +10,10 @@
 ## Paramaters
 * EKF2_AID_MASK: set to `use optical flow` only
 * CBRK_SUPPLY_CHK: set to `no check`
-
-## Links may helpful
-...
+* MAV_0_CONFIG: set to `TELEM 1` if you plug raspebrry_pi with that port
+* MAV_0_MODE: set to `Onboard`
+* MAV_0_RATE: set to `1200 B/s`
+* SER_TEL1_BAUD: set to `57600 8N1` if you use `TELEM 1` port
 
 ## We use `jMAVSIM` and `MAVSDK-Python` for software development
 
@@ -26,39 +27,24 @@
 * https://github.com/mavlink/MAVSDK-Python/issues
 
 ### The codes may look like
-```
+```python
 #!/usr/bin/env python3
 
 import asyncio
 from mavsdk import System
+from mavsdk import (OffboardError, PositionNedYaw)
 
 
 async def run():
-    """
-    This is the "main" function.
-    It first creates the drone object and initializes it.
-
-    Then it registers tasks to be run in parallel (one can think of them as threads):
-        - print_altitude: print the altitude
-        - print_flight_mode: print the flight mode
-        - observe_is_in_air: this monitors the flight mode and returns when the
-                             drone has been in air and is back on the ground.
-
-    Finally, it goes to the actual works: arm the drone, initiate a takeoff
-    and finally land.
-
-    Note that "observe_is_in_air" is not necessary, but it ensures that the
-    script waits until the drone is actually landed, so that we receive feedback
-    during the landing as well.
-    """
-
     # Init the drone
     drone = System()
     await drone.connect(system_address="udp://:14540")
 
     # Set parameters
     await drone.param.set_float_param("MIS_TAKEOFF_ALT", 1.0)  # set takeoff height to 1 meter
-    await drone.param.set_int_param("COM_TAKEOFF_ACT", 1)  # hold after takeoff
+    await drone.param.set_int_param("COM_TAKEOFF_ACT", 0)  # hold after takeoff
+    await drone.param.set_int_param("COM_OBL_ACT", 0)  # 0: land if lost offboard signal; 1: hold if lost offboard signal
+    
 
     # Start parallel tasks
     asyncio.ensure_future(print_altitude(drone))
@@ -67,12 +53,55 @@ async def run():
 
     # Execute the maneuvers
     print("-- Arming")
-    await drone.action.arm()
+    try:
+        await drone.action.arm()
+    except Exception as e:
+        print(e)
 
-    print("-- Taking off")
-    await drone.action.takeoff()
+    #print("-- Taking off")
+    #await drone.action.takeoff()
 
-    await asyncio.sleep(10)  # stay in there for 10 seconds
+    #await asyncio.sleep(10)  # stay in there for 10 seconds
+
+    print("-- Setting initial setpoint")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
+
+    print("-- Starting offboard")
+    try:
+        await drone.offboard.start()
+    except OffboardError as error:
+        print(f"Starting offboard mode failed with error code: {error._result.result}")
+        print("-- Disarming")
+        await drone.action.disarm()
+        return
+
+    await asyncio.sleep(5)
+
+    print("-- Go up 5 m")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
+    await asyncio.sleep(5)
+
+    print("-- Go 5m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(5.0, 0.0, -5.0, 0.0))
+    await asyncio.sleep(5)
+
+    print("-- Back to start point: Go 0m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
+    await asyncio.sleep(5)
+
+    print("-- Go -5m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(-5.0, 0.0, -5.0, 0.0))
+    await asyncio.sleep(5)
+
+    print("-- Back to start point: Go 0m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
+    await asyncio.sleep(5)
+
+    print("-- Stopping offboard")
+    try:
+        await drone.offboard.stop()
+    except OffboardError as error:
+        print(f"Stopping offboard mode failed with error code: {error._result.result}")
 
     print("-- Landing")
     await drone.action.land()
@@ -116,9 +145,30 @@ async def observe_is_in_air(drone):
 
         if was_in_air and not is_in_air:
             await asyncio.get_event_loop().shutdown_asyncgens()
+            print("Not in the air now.")
             return
 
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(run())
 ```
+
+## MAVProxy
+### If you want to use Raspberry_Pi to control your `jMAVSIM` simulator
+1. we assume the raspberry_pi ip address is `192.168.43.7`
+2. In the compurter that you run a simulator, run this command: 
+```
+mavproxy.py --master=udp:127.0.0.1:14540 --master=udp:127.0.0.1:14550 --master=udp:127.0.0.1:14560 --out=udp:192.168.43.7:14540 --out=udp:192.168.43.7:14550 --out=udp:192.168.43.7:14560
+```
+> (out=udp:the_ip_of_computer_where_you_run_your_mavsdk_python_script)
+3. In the raspberry_pi, you run the code with:
+```
+await drone.connect(system_address="udp://:14540")
+```
+
+### If you want to use Raspberry_Pi to control the real drone (hardware)
+In your raspberry_pi, run the following:
+```
+mavproxy.py --master=/dev/ttyUSB0 --out=udp:127.0.0.1:14540 --out=udp:127.0.0.1:14550 --out=udp:127.0.0.1:14560 --out=udp:192.168.43.31:14540 --out=udp:192.168.43.31:14550 --out=udp:192.168.43.31:14560 --daemon
+```
+> /dev/ttyUSB0 has to be right connected. You can reference this: https://dev.px4.io/master/en/companion_computer/pixhawk_companion.html#hardware-setup

@@ -171,14 +171,14 @@ ___
 * 刘露: 无
 
 10月21日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: 无
+* 孙雅斌: 无
+* 刘露: 无
 
 10月22日: 
-* yingshaoxo: 
-* 孙雅斌: 
-* 刘露: 
+* yingshaoxo: `用树梅派控制实体机，定向定距离移动`，测试完毕
+* 孙雅斌: 无
+* 刘露: 把树梅派与Pixhawk的数据线连接了起来(FTDI connect TELEM1)
 
 ___
 
