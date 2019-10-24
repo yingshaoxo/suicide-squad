@@ -109,15 +109,22 @@ async def observe_is_in_air(drone):
     was_in_air = False
 
     async for is_in_air in drone.telemetry.in_air():
-        if is_in_air:
-            was_in_air = is_in_air
-
-        if was_in_air and not is_in_air:
+        if not is_in_air:
             print("Not in the air now.")
             # await drone.action.kill()
             await drone.action.disarm()
             await asyncio.get_event_loop().shutdown_asyncgens()
             return
+
+        #if is_in_air:
+        #    was_in_air = is_in_air
+
+        #if was_in_air and not is_in_air:
+        #    print("Not in the air now.")
+        #    # await drone.action.kill()
+        #    await drone.action.disarm()
+        #    await asyncio.get_event_loop().shutdown_asyncgens()
+        #    return
 
 
 if __name__ == "__main__":
