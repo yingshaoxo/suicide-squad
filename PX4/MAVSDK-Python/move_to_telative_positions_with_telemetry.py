@@ -45,27 +45,27 @@ async def run():
         await drone.action.disarm()
         return
 
-    await asyncio.sleep(5)
+    await asyncio.sleep(1)
 
-    print("-- Go up 5 m")
-    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
-    await asyncio.sleep(5)
+    print("-- Go up 0.5 m")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -0.5, 0.0))
+    await asyncio.sleep(1)
 
-    print("-- Go 5m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned(PositionNedYaw(5.0, 0.0, -5.0, 0.0))
-    await asyncio.sleep(5)
+    print("-- Go 1m North, 0m East, -0.5m Down (actually 0.5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(1.0, 0.0, -0.5, 0.0))
+    await asyncio.sleep(1)
 
-    print("-- Back to start point: Go 0m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
-    await asyncio.sleep(5)
+    print("-- Back to start point: Go 0m North, 0m East, -0.5m Down (actually 0.5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -0.5, 0.0))
+    await asyncio.sleep(1)
 
-    print("-- Go -5m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned(PositionNedYaw(-5.0, 0.0, -5.0, 0.0))
-    await asyncio.sleep(5)
+    print("-- Go -1m North, 0m East, -0.5m Down (actually 0.5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(-1.0, 0.0, -0.5, 0.0))
+    await asyncio.sleep(1)
 
-    print("-- Back to start point: Go 0m North, 0m East, -5m Down (actually 5m high from ground) within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -5.0, 0.0))
-    await asyncio.sleep(5)
+    print("-- Back to start point: Go 0m North, 0m East, -0.5m Down (actually 0.5m high from ground) within local coordinate system, turn to face East")
+    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -0.5, 0.0))
+    await asyncio.sleep(1)
 
     print("-- Stopping offboard")
     try:
@@ -78,6 +78,9 @@ async def run():
 
     # Wait until the drone is landed (instead of returning after 'land' is sent)
     await termination_task
+
+    #await drone.action.kill()
+    await drone.action.disarm()
 
 
 async def print_altitude(drone):

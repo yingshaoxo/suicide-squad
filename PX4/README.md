@@ -10,10 +10,13 @@
 ## Paramaters
 * EKF2_AID_MASK: set to `use optical flow` only
 * CBRK_SUPPLY_CHK: set to `no check`
+* CBRK_USB_CHK: set to `no check`
 * MAV_0_CONFIG: set to `TELEM 1` if you plug raspebrry_pi with that port
 * MAV_0_MODE: set to `Onboard`
 * MAV_0_RATE: set to `1200 B/s`
 * SER_TEL1_BAUD: set to `57600 8N1` if you use `TELEM 1` port
+* COM_OBL_ACT: set to `land` if lost of offboard signal
+* CBRK_IO_SAFETY: set to `no check`, so you don't have to click safety button before you arm
 
 ## We use `jMAVSIM` and `MAVSDK-Python` for software development
 
@@ -172,3 +175,5 @@ In your raspberry_pi, run the following:
 mavproxy.py --master=/dev/ttyUSB0 --out=udp:127.0.0.1:14540 --out=udp:127.0.0.1:14550 --out=udp:127.0.0.1:14560 --out=udp:192.168.43.31:14540 --out=udp:192.168.43.31:14550 --out=udp:192.168.43.31:14560 --daemon
 ```
 > /dev/ttyUSB0 has to be right connected. You can reference this: https://dev.px4.io/master/en/companion_computer/pixhawk_companion.html#hardware-setup
+
+You have to click the safety_buttom first, then use remote controller to arm, then you are able to run the Python codes to control the drone
