@@ -14,7 +14,6 @@ async def run():
     await drone.param.set_float_param("MIS_TAKEOFF_ALT", 1.0)  # set takeoff height to 1 meter
     await drone.param.set_int_param("COM_TAKEOFF_ACT", 0)  # hold after takeoff
     await drone.param.set_int_param("COM_OBL_ACT", 0)  # 0: land if lost offboard signal; 1: hold if lost offboard signal
-    
 
     # Start parallel tasks
     asyncio.ensure_future(print_altitude(drone))
@@ -29,9 +28,9 @@ async def run():
         print(e)
 
     #print("-- Taking off")
-    #await drone.action.takeoff()
+    # await drone.action.takeoff()
 
-    #await asyncio.sleep(10)  # stay in there for 10 seconds
+    # await asyncio.sleep(10)  # stay in there for 10 seconds
 
     print("-- Setting initial setpoint")
     await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
@@ -79,9 +78,6 @@ async def run():
     # Wait until the drone is landed (instead of returning after 'land' is sent)
     await termination_task
 
-    #await drone.action.kill()
-    await drone.action.disarm()
-
 
 async def print_altitude(drone):
     """ Prints the altitude when it changes """
@@ -117,8 +113,10 @@ async def observe_is_in_air(drone):
             was_in_air = is_in_air
 
         if was_in_air and not is_in_air:
-            await asyncio.get_event_loop().shutdown_asyncgens()
             print("Not in the air now.")
+            # await drone.action.kill()
+            await drone.action.disarm()
+            await asyncio.get_event_loop().shutdown_asyncgens()
             return
 
 
