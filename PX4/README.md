@@ -182,3 +182,17 @@ mavproxy.py --master=/dev/ttyUSB0 --out=udp:127.0.0.1:14540 --out=udp:127.0.0.1:
 > /dev/ttyUSB0 has to be right connected. You can reference this: https://dev.px4.io/master/en/companion_computer/pixhawk_companion.html#hardware-setup
 
 You have to click the safety_buttom first, then use remote controller to arm, then you are able to run the Python codes to control the drone
+
+## Battery
+### For charging
+```
+Lipo 
+2.0A 11.1V(3S)
+```
+
+### For configure
+```
+Number of Cells: 3
+Full Voltage: 4.2
+Empty Voltage: 3.6
+```
